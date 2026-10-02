@@ -1,5 +1,8 @@
 # Pêche 🍑
 
+### [🍑 打开 Pêche / Open Pêche](https://samuelvampire.github.io/SV.peche/)
+
+
 Pêche 是一个基于《Inspire 1 – A1》学习内容制作的法语单词学习网页。
 
 这个项目最初是为了配合个人法语 A1 学习使用，把 Inspire 1 中整理出的词汇集中到一个简单、轻量的网页里，通过选择、回忆和间隔复习来练习法语词汇。
