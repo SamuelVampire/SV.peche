@@ -42,3 +42,7 @@ for(const level of ["A1","A2","B1","B2","C1"]){
    TCF_GROUPS[key]={level,group:n,count:chunk.length,themes:[...new Set(chunk.map(x=>x.theme))]};
  }
 }
+
+// Keep the same pronunciation-assistance layer as the Inspire course.
+// autoPron() is defined in vocab.js and is a rule-based initial mapping, not human-verified IPA.
+TCF_VOCAB.forEach(x=>{if(!x.pr&&typeof autoPron==="function")x.pr=autoPron(x.f)});
