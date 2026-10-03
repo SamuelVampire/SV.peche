@@ -789,3 +789,37 @@ const VOCAB=[
 
 const PRON={"apprendre":[["ap","a"],["prendre","pʁɑ̃dʁ"]],"au revoir":[["au","o"],["re","ʁə"],["voir","vwaʁ"]],"bien":[["bien","bjɛ̃"]],"bonjour":[["bon","bɔ̃"],["jour","ʒuʁ"]],"bonsoir":[["bon","bɔ̃"],["soir","swaʁ"]],"un cahier":[["un","œ̃"],["ca","ka"],["hier","je"]],"une chaise":[["une","yn"],["chaise","ʃɛz"]],"une classe":[["une","yn"],["classe","klas"]],"un crayon":[["un","œ̃"],["cra","kʁɛ"],["yon","jɔ̃"]],"écouter":[["é","e"],["cou","ku"],["ter","te"]],"et":[["et","e"]],"un livre":[["un","œ̃"],["livre","livʁ"]],"un objet":[["un","œ̃"],["ob","ɔb"],["jet","ʒɛ"]],"un ordinateur":[["un","œ̃"],["or","ɔʁ"],["di","di"],["na","na"],["teur","tœʁ"]],"une personne":[["une","yn"],["per","pɛʁ"],["sonne","sɔn"]],"un prénom":[["un","œ̃"],["pré","pʁe"],["nom","nɔ̃"]],"une question":[["une","yn"],["ques","kɛs"],["tion","tjɔ̃"]],"regarder":[["re","ʁə"],["gar","ɡaʁ"],["der","de"]],"saluer":[["sa","sa"],["lu","ly"],["er","e"]],"salut":[["sa","sa"],["lut","ly"]],"un smartphone":[["un","œ̃"],["smart","smaʁt"],["phone","fɔn"]],"un stylo":[["un","œ̃"],["sty","sti"],["lo","lo"]],"une table":[["une","yn"],["table","tabl"]],"un tableau":[["un","œ̃"],["ta","ta"],["bleau","blo"]],"une tablette":[["une","yn"],["ta","ta"],["blette","blɛt"]],"merci":[["mer","mɛʁ"],["ci","si"]],"s’il vous plaît":[["s’il","sil"],["vous","vu"],["plaît","plɛ"]],"prendre congé":[["prendre","pʁɑ̃dʁ"],["con","kɔ̃"],["gé","ʒe"]],"zéro":[["zé","ze"],["ro","ʁo"]],"un":[["un","œ̃"]],"deux":[["deux","dø"]],"trois":[["trois","tʁwa"]],"quatre":[["quatre","katʁ"]],"cinq":[["cinq","sɛ̃k"]],"six":[["six","sis"]],"sept":[["sept","sɛt"]],"huit":[["huit","ɥit"]],"neuf":[["neuf","nœf"]],"dix":[["dix","dis"]],"onze":[["onze","ɔ̃z"]],"douze":[["douze","duz"]],"treize":[["treize","tʁɛz"]],"quatorze":[["qua","ka"],["torze","tɔʁz"]],"quinze":[["quinze","kɛ̃z"]],"seize":[["seize","sɛz"]],"dix-sept":[["dix","dis"],["sept","sɛt"]],"dix-huit":[["dix","diz"],["huit","ɥit"]],"dix-neuf":[["dix","diz"],["neuf","nœf"]],"vingt":[["vingt","vɛ̃"]],"trente":[["trente","tʁɑ̃t"]],"quarante":[["qua","ka"],["rante","ʁɑ̃t"]],"cinquante":[["cin","sɛ̃"],["quante","kɑ̃t"]],"soixante":[["soi","swa"],["xante","sɑ̃t"]],"soixante-dix":[["soi","swa"],["xante","sɑ̃t"],["dix","dis"]],"quatre-vingts":[["quatre","katʁ"],["vingts","vɛ̃"]],"quatre-vingt-dix":[["quatre","katʁ"],["vingt","vɛ̃"],["dix","dis"]],"lundi":[["lun","lœ̃"],["di","di"]],"mardi":[["mar","maʁ"],["di","di"]],"mercredi":[["mer","mɛʁ"],["cre","kʁə"],["di","di"]],"jeudi":[["jeu","ʒø"],["di","di"]],"vendredi":[["ven","vɑ̃"],["dre","dʁə"],["di","di"]],"samedi":[["sa","sa"],["me","mə"],["di","di"]],"dimanche":[["di","di"],["manche","mɑ̃ʃ"]],"un jour":[["un","œ̃"],["jour","ʒuʁ"]],"la semaine":[["la","la"],["se","sə"],["maine","mɛn"]],"une planète":[["une","yn"],["pla","pla"],["nète","nɛt"]],"le soleil":[["le","lə"],["so","sɔ"],["leil","lɛj"]],"une réponse":[["une","yn"],["ré","ʁe"],["ponse","pɔ̃s"]],"travailler":[["tra","tʁa"],["va","va"],["iller","je"]],"comprendre":[["com","kɔ̃"],["prendre","pʁɑ̃dʁ"]],"demander":[["de","də"],["man","mɑ̃"],["der","de"]],"pardon":[["par","paʁ"],["don","dɔ̃"]],"poliment":[["po","pɔ"],["li","li"],["ment","mɑ̃"]],"répéter":[["ré","ʁe"],["pé","pe"],["ter","te"]],"utile":[["u","y"],["tile","til"]],"une ville":[["une","yn"],["ville","vil"]]};
 VOCAB.forEach(x=>{if(x.u===1&&PRON[x.f])x.pr=PRON[x.f]});
+
+
+const PHON_RULES=[
+["eaux","o"],["eau","o"],["aux","o"],["ai","ɛ"],["ais","ɛ"],["ait","ɛ"],["ei","ɛ"],
+["au","o"],["ou","u"],["oi","wa"],["oin","wɛ̃"],["ui","ɥi"],["eu","ø"],["œu","œ"],
+["an","ɑ̃"],["am","ɑ̃"],["en","ɑ̃"],["em","ɑ̃"],["on","ɔ̃"],["om","ɔ̃"],["in","ɛ̃"],["im","ɛ̃"],["ain","ɛ̃"],["ein","ɛ̃"],["un","œ̃"],
+["ill","j"],["gn","ɲ"],["ch","ʃ"],["ph","f"],["th","t"],["qu","k"],["gu","g"],
+["tion","sjɔ̃"],["ien","jɛ̃"],["ier","je"],["er","e"],["ez","e"],
+["é","e"],["è","ɛ"],["ê","ɛ"],["à","a"],["â","ɑ"],["î","i"],["ï","i"],["ô","o"],["ù","y"],["û","y"],["ç","s"],
+["a","a"],["b","b"],["d","d"],["f","f"],["g","g"],["i","i"],["j","ʒ"],["k","k"],["l","l"],["m","m"],["n","n"],["o","ɔ"],["p","p"],["r","ʁ"],["s","s"],["t","t"],["u","y"],["v","v"],["w","w"],["y","i"],["z","z"]
+];
+function autoPron(s){
+ const parts=[],words=s.replace(/[’']/g,"'").split(/(\s+|-)/).filter(Boolean);
+ for(const word of words){
+   if(/^\s+$/.test(word)||word==="-")continue;
+   let raw=word, low=raw.toLowerCase(),i=0,buf="",ipa="";
+   const flush=()=>{if(buf){parts.push([buf,ipa]);buf="";ipa=""}};
+   while(i<low.length){
+     if(low[i]==="'"){flush();i++;continue}
+     let hit=null;
+     for(const [gr,ph] of PHON_RULES){if(low.startsWith(gr,i)){hit=[gr,ph];break}}
+     if(!hit){buf+=raw[i];i++;continue}
+     const [gr,ph]=hit;
+     // Keep silent final consonants/e visually attached without forcing a false IPA.
+     const atEnd=i+gr.length===low.length;
+     if(atEnd&&["e","s","t","d","x","z","p","g"].includes(gr)){buf+=raw.slice(i,i+gr.length);i+=gr.length;continue}
+     buf+=raw.slice(i,i+gr.length);ipa+=ph;i+=gr.length;
+     if(/[aeiouyàâäéèêëîïôöùûüœ]/.test(gr)||["an","am","en","em","on","om","in","im","ain","ein","un","eau","eaux","au","aux","ou","oi","oin","ui","eu","œu","ien","ier","er","ez","tion"].includes(gr))flush();
+   }
+   flush();
+ }
+ return parts;
+}
+VOCAB.forEach(x=>{if(!x.pr)x.pr=autoPron(x.f)});
