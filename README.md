@@ -2,6 +2,10 @@
 
 ### [🍑 打开 Pêche / Open Pêche](https://samuelvampire.github.io/SV.peche/)
 
+### [📓 打开 Cahier / Open Cahier](https://samuelvampire.github.io/SV.peche/cahier/)
+
+Cahier 是独立的法语学习练习册，包含发音与字母组合、0–999 数字、动词变位规则以及混合练习。**可以自行点击上方链接直接打开使用**，无需注册。学习记录保存在当前浏览器本地，与 Pêche 的词汇学习进度相互独立。
+
 Pêche 是一个个人法语词汇学习网页。目前包含《Inspire 1 – A1》课程词库，以及正在持续扩充的 TCF / CEFR 词汇库。
 
 这个项目最初是为了配合个人法语 A1 学习使用，把 Inspire 1 中整理出的词汇集中到一个简单、轻量的网页里，通过选择、回忆和间隔复习来练习法语词汇。
