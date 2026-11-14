@@ -14,7 +14,137 @@ function sounds(){return '<div class="card"><h2>Sounds</h2><p class="mut">点例
 function number(n){let u=['zéro','un','deux','trois','quatre','cinq','six','sept','huit','neuf','dix','onze','douze','treize','quatorze','quinze','seize'];if(n<17)return u[n];if(n<20)return 'dix-'+u[n-10];let t={20:'vingt',30:'trente',40:'quarante',50:'cinquante',60:'soixante'};if(n<70){let d=n-n%10,r=n%10;return t[d]+(r?(r===1?' et un':'-'+u[r]):'')}if(n<80)return n===71?'soixante et onze':'soixante-'+number(n-60);if(n<100)return n===80?'quatre-vingts':'quatre-vingt-'+number(n-80);let h=Math.floor(n/100),r=n%100;return(h===1?'cent':u[h]+' cent'+(r?'':'s'))+(r?' '+number(r):'')}
 function numbers(){return '<div class="card"><h2>Numbers</h2><p>0–999 · 法语数字查询与听写</p><div class="row"><input id="num" type="number" min="0" max="999" value="71"><button id="numgo" class="primary">查看</button></div><div id="numresult"></div><div class="row"><button id="numquiz">数字听写 · 10题</button></div><p class="mut">70 = 60 + 10；80 = 4 × 20；90 = 4 × 20 + 10。注意 71 的 et、80 的 s，以及 81 不用 et。</p></div>'}
 function numshow(){let n=Number(el('num').value);if(!Number.isInteger(n)||n<0||n>999){el('numresult').textContent='请输入 0–999 的整数';return}el('numresult').innerHTML='<div class="big">'+n+'</div><h2 style="text-align:center">'+number(n)+'</h2><p style="text-align:center"><button data-say="'+number(n)+'">▶ 法语发音</button></p>'}
-const LESSONS=[{"why":"第一组规则 -er：先分清原形、词干、人称词尾。","steps":["① parler（说话）去掉 -er，留下 parl-。","② 按主语加 -e / -es / -e / -ons / -ez / -ent。","③ je parle（我说话）、nous parlons（我们说话）、ils parlent（他们说话）。"],"mechanism":"词尾表示主语的人称和数。-e、-es、-ent 通常不发音，因此 parle（说）、parles（说）、parlent（说）通常同音；-ons、-ez 可听出差别。","exceptions":"aller（去）虽然以 -er 结尾，却是第三组；manger（吃）、préférer（更喜欢）等仍属第一组，但需额外拼写调整。"},{"why":"为什么 nous（我们）会多出 e 或 ç？为了保护原本的辅音发音，而不是另换一套人称词尾。","steps":["① manger（吃）→ mang- + -ons 本应得到 mangons，但 g 在 o 前通常读 /g/。","② 加一个 e 隔开 g 和 o：nous mangeons（我们吃），保留 /ʒ/。","③ commencer（开始）→ commenc- + -ons；c 在 o 前通常读 /k/。","④ 把 c 写成 ç：nous commençons（我们开始），保留 /s/。"],"mechanism":"g + e/i 通常读 /ʒ/，g + a/o/u 通常读 /g/；c + e/i 通常读 /s/，c + a/o/u 通常读 /k/。这里改变的是拼写，不是 -ons 词尾。","exceptions":"vous mangez（你们吃）、vous commencez（你们开始）后面本来就是 e，不需要额外改写。voyager（旅行）→ voyageons（我们旅行）；lancer（投掷）→ lançons（我们投掷）。"},{"why":"【先把规则完整说清楚】在 préférer（更喜欢）这一类含 é 的 -er 动词里：当词干中相关的 é 后面接一个含不发音 e 的词尾（-e、-es、-ent）时，这个 é 要写成 è；当后面接发音的词尾（-ons、-ez）时，保留 é。这里说的是特定动词的词干元音变化，不是法语里每一个 e 都必须这样变。","steps":["① 先看原形 préférer（更喜欢）：它的拼写是 p-r-é-f-é-r-e-r。注意有两个 é；变位时改变的是靠近 -er 词尾的第二个 é，第一个 é 不变。","② je préfère（我更喜欢）：词尾 -e 不发音，因此第二个 é → è。","③ tu préfères（你更喜欢）：词尾 -es 不发音，因此第二个 é → è。","④ il préfère（他更喜欢）/ elle préfère（她更喜欢）：词尾 -e 不发音，因此第二个 é → è。","⑤ ils préfèrent（他们更喜欢）/ elles préfèrent（她们更喜欢）：词尾 -ent 不发音，因此第二个 é → è。","⑥ nous préférons（我们更喜欢）：词尾 -ons 发音，所以第二个 é 保持 é。","⑦ vous préférez（您更喜欢／你们更喜欢）：词尾 -ez 发音，所以第二个 é 保持 é。","⑧ 记忆图形：je、tu、il/elle、ils/elles 四格变 è；nous、vous 两格保留 é。"],"mechanism":"【为什么】é 通常对应较闭的 /e/，è 通常对应较开的 /ɛ/。对 préférer（更喜欢）这样的动词，词尾含不发音的 e 时，词干中相关元音读 /ɛ/，所以用 è 标示；-ons、-ez 是发音的词尾，相关元音保留 /e/，所以写 é。关键是词干音节和词尾的关系，不是把词尾里的 e 改掉。完整对照：je préfère（我更喜欢）｜tu préfères（你更喜欢）｜il préfère（他更喜欢）｜nous préférons（我们更喜欢）｜vous préférez（你们更喜欢）｜ils préfèrent（他们更喜欢）。","exceptions":"【同类与区别】espérer（希望）→ j’espère（我希望）/ nous espérons（我们希望）；répéter（重复）→ je répète（我重复）/ nous répétons（我们重复）。另有 e → è：acheter（购买）→ j’achète（我购买）/ nous achetons（我们购买）；lever（抬起）→ je lève（我抬起）/ nous levons（我们抬起）。还有双写辅音的模式：appeler（打电话）→ j’appelle（我打电话）/ nous appelons（我们打电话）；jeter（扔）→ je jette（我扔）/ nous jetons（我们扔）。这些是相近的发音与拼写现象，但不能把所有 -er 动词、所有 é 或所有 e 一律套入同一规则。"},{"why":"第二组 -ir 不是所有 -ir 动词：它有可辨认的 -iss- 扩展词干。","steps":["① finir（完成）去掉 -ir 得 fin-。","② 单数加 -is/-is/-it：je finis（我完成）、tu finis（你完成）、il finit（他完成）。","③ 复数加 -issons/-issez/-issent：nous finissons（我们完成）、vous finissez（你们完成）、ils finissent（他们完成）。","④ choisir（选择）→ nous choisissons（我们选择）；现在分词 finissant（正在完成的）。"],"mechanism":"复数形式的 -iss- 是第二组动词的标志性扩展，不能理解为随便多加了两个 s。判断第二组常看 nous -issons 与现在分词 -issant。","exceptions":"partir（离开）→ nous partons（我们离开），不是 *partissons*；ouvrir（打开）→ nous ouvrons（我们打开），也不属于第二组。"},{"why":"partir 类 -ir 为什么单数看起来少一个字母？这类第三组动词有长短两套词干。","steps":["① partir（离开）：复数保留 part-，nous partons（我们离开）。","② 单数采用短词干 par-：je pars（我离开）、tu pars（你离开）、il part（他离开）。","③ dormir（睡觉）：je dors（我睡觉）/ nous dormons（我们睡觉）。","④ sortir（出去）：je sors（我出去）/ nous sortons（我们出去）。"],"mechanism":"单数常见 -s/-s/-t，复数 -ons/-ez/-ent；但词干必须先按家族选择，不能只给原形去掉 -ir 再加词尾。","exceptions":"finir（完成）是第二组；courir（跑）、mourir（死亡）等有自己的模式，不能全部照搬 partir（离开）。"},{"why":"为什么 ouvrir（打开）是第三组，却像第一组？动词分组不只看现在时词尾。","steps":["① ouvrir（打开）去掉 -ir，得到 ouvr-。","② 现在时加类似 -er 的 -e/-es/-e/-ons/-ez/-ent。","③ j’ouvre（我打开）、tu ouvres（你打开）、nous ouvrons（我们打开）、ils ouvrent（他们打开）。","④ offrir（赠送）→ j’offre（我赠送）；cueillir（采摘）→ je cueille（我采摘）。"],"mechanism":"它们现在时的词尾看起来像第一组，但原形并非 -er，其他时态和过去分词也有自己的规律。","exceptions":"ouvrir（打开）的过去分词是 ouvert（打开了的）；offrir（赠送）是 offert（赠送了的）。不能据现在时推断过去分词一定以 -é 结尾。"},{"why":"vendre 类 -re 的单数第三人称为什么不额外加字母？词干已经以 d 结尾。","steps":["① vendre（卖）去掉 -re，得到 vend-。","② je vends（我卖）、tu vends（你卖）：加 -s。","③ il vend（他卖）：没有额外词尾，保留词干中的 d。","④ nous vendons（我们卖）、vous vendez（你们卖）、ils vendent（他们卖）。"],"mechanism":"可概括为 -s/-s/零词尾/-ons/-ez/-ent；这里的“零词尾”不代表删掉原来词干的 d。","exceptions":"attendre（等待）→ il attend（他等待）；répondre（回答）→ il répond（他回答）。prendre（拿）、mettre（放）虽然也以 -re 结尾，但词干变化不同。"},{"why":"prendre（拿）不能按 vendre（卖）套：它同时改变词干拼写和词尾。","steps":["① 单数 prend-：je prends（我拿）、tu prends（你拿）、il prend（他拿）。","② nous/vous 用 pren-：nous prenons（我们拿）、vous prenez（你们拿）。","③ ils/elles 用 prenn-：ils prennent（他们拿）。","④ comprendre（理解）→ je comprends（我理解）、nous comprenons（我们理解）、ils comprennent（他们理解）。"],"mechanism":"这是三套词干 prend-/pren-/prenn- 的交替；复数 nous/vous 去掉 d，第三人称复数双写 n。变位时先选词干，再配人称。","exceptions":"apprendre（学习）、comprendre（理解）跟随 prendre 家族；不要写 *nous prendons* 或 *ils prendent*。"},{"why":"mettre（放置）有 met- 与 mett- 两套词干，不能把双 t 写进所有人称。","steps":["① 单数 je mets（我放）、tu mets（你放）、il met（他放）。","② 复数 nous mettons（我们放）、vous mettez（你们放）、ils mettent（他们放）。","③ permettre（允许）→ je permets（我允许）、nous permettons（我们允许）。"],"mechanism":"单数 met-，复数 mett-；单数第三人称 met（他放）末尾 t 属于形式本身，不能写 *mett*。","exceptions":"promettre（承诺）也同族。注意 mettre（放置）的过去分词 mis（放置了的），并不是 *metté*。"},{"why":"venir（来）与 tenir（拿住）为什么出现 ien/en/ienn？它们有三套对应不同人称的词干。","steps":["① venir（来）：je viens（我来）、tu viens（你来）、il vient（他来）。","② nous venons（我们来）、vous venez（你们来）。","③ ils viennent（他们来）。","④ tenir（拿住）：je tiens（我拿住）、nous tenons（我们拿住）、ils tiennent（他们拿住）。"],"mechanism":"单数 vien-，nous/vous 用 ven-，ils/elles 用 vienn-；拼写和元音读音一起变化。","exceptions":"devenir（成为）、revenir（回来）、obtenir（获得）分别跟随 venir 或 tenir 家族；venir（来）的过去分词 venu（来了的），tenir（拿住）的过去分词 tenu（拿住了的）。"},{"why":"-oir 只是原形拼写线索，不是一套统一变位。每个高频动词必须先识别自己的词干家族。","steps":["① pouvoir（能够）：je peux（我能）/ nous pouvons（我们能）/ ils peuvent（他们能）。","② vouloir（想要）：je veux（我想要）/ nous voulons（我们想要）/ ils veulent（他们想要）。","③ devoir（必须）：je dois（我必须）/ nous devons（我们必须）/ ils doivent（他们必须）。","④ voir（看见）：je vois（我看见）/ nous voyons（我们看见）/ ils voient（他们看见）。","⑤ savoir（知道）：je sais（我知道）/ nous savons（我们知道）/ ils savent（他们知道）。","⑥ recevoir（收到）：je reçois（我收到）/ nous recevons（我们收到）/ ils reçoivent（他们收到）。"],"mechanism":"有的发生元音交替，有的发生词干辅音变化；-oir 不能直接告诉你六个人称的词尾。先记各家族 je/nous/ils 三个锚点，再补全 tu/il/vous。","exceptions":"pouvoir（能够）的 je peux（我能）与 je puis（我能，较正式/特定句式）都存在；例如 puis-je（我可以……吗，倒装）。"},{"why":"être（是）、avoir（有）、aller（去）、faire（做）频率极高，而且词干差异大，不能靠统一词尾推导。","steps":["① être（是）：je suis（我是）、tu es（你是）、il est（他是）、nous sommes（我们是）、vous êtes（您是）、ils sont（他们是）。","② avoir（有）：j’ai（我有）、tu as（你有）、il a（他有）、nous avons（我们有）、vous avez（您有）、ils ont（他们有）。","③ aller（去）：je vais（我去）、tu vas（你去）、il va（他去）、nous allons（我们去）、vous allez（您去）、ils vont（他们去）。","④ faire（做）：je fais（我做）、tu fais（你做）、il fait（他做）、nous faisons（我们做）、vous faites（您做）、ils font（他们做）。"],"mechanism":"这些形式保留了历史上不同词干的变化，现代法语学习中不能从原形直接机械生成。先按六个人称记忆，再在短句中辨认。","exceptions":"avoir（有）与 être（是）还是复合过去时的助动词；aller（去）构成近将来时 aller + 原形；faire（做）的 nous faisons（我们做）常读 /fə.zɔ̃/。"}];
+const LESSONS=[
+  {
+    "why": "其实就一条：规则 -er 只换词尾，词干从头到尾不动。-e、-es、-ent 都不发音，所以 je、tu、il、ils 听起来完全一样；真正读出来的只有 nous 的 -ons 和 vous 的 -ez。",
+    "steps": [
+      "parler（说话）去掉 -er，词干是 parl-。六个人称都用这一套词干。",
+      "je parle（我说话）、tu parles（你说话）、il parle（他说话）、ils parlent（他们说话）：词尾 -e、-es、-ent 都不发音，四格同音 /paʁl/。听起来一样，拼写仍然要分开。",
+      "nous parlons（我们说话）/paʁ.lɔ̃/，vous parlez（你们说话）/paʁ.le/：-ons 读 /ɔ̃/，-ez 读 /e/。"
+    ],
+    "mechanism": "记「一套词干 + 六个词尾：-e、-es、-e、-ons、-ez、-ent」。把 je、tu、il、ils 连成一只靴子：靴子里面词尾不发音，nous 和 vous 在靴子外面，靠读音分开。同样：aimer（爱）→ j'aime / nous aimons；regarder（看）→ je regarde / nous regardons；écouter（听）→ j'écoute / nous écoutons。elle 与 il 同形，elles 与 ils 同形；vous 说「您」或「你们」，变位都一样。后面各组按这个约定，不再逐格重复。",
+    "exceptions": "aller（去）虽然以 -er 结尾，变位却是 je vais，不要写成 j'alle。manger、commencer 要保护辅音读音，见第 2 类；préférer、acheter、appeler 会改词干元音，见第 3 类。肯定命令式的 tu 不带 -s：Parle ! 后面紧跟 en 或 y 时，为了好读把 s 加回来：Parles-en（说说这个）。"
+  },
+  {
+    "why": "g 在 e、i 前读 /ʒ/（就是 je 的 j），碰到 nous 的 o 会读成 /g/；c 在 e、i 前读 /s/，碰到 o 会读成 /k/。所以 -ger 的 nous 加一个不发音的 e，-cer 的 nous 写成 ç，把原来的软音保住。",
+    "steps": [
+      "manger（吃）去掉 -er，词干 mang-。这个 g 六个人称都要读 /ʒ/。",
+      "je mange（我吃）、tu manges（你吃）、il mange（他吃）、ils mangent（他们吃）：后面有 e，g 自然是 /ʒ/。-e、-es、-ent 都不发音，拼写不用改。",
+      "nous mangeons（我们吃）/mɑ̃.ʒɔ̃/：在 g 和 o 之间加一个自己不发音的 e，g 才不会读成 /g/。vous mangez（你们吃）：-ez 里已经有 e，不用再加。",
+      "commencer（开始）保的是 /s/。je commence（我开始）、tu commences（你开始）、il commence（他开始）、nous commençons（我们开始，只有这里写成 ç）、vous commencez（你们开始）、ils commencent（他们开始）。"
+    ],
+    "mechanism": "现在时只记一条：只有 nous 改拼写。-ger → nous -geons；-cer → nous -çons。vous 一律不动。同样：voyager（旅行）→ nous voyageons；nager（游泳）→ nous nageons；lancer（投掷）→ nous lançons。",
+    "exceptions": "不要写成 nous mangons、nous commencons，也不要把 e 或 ç 加到 vous 上：vous mangez、vous commencez 是对的。ç 用在 a、o、u 前面。未完成过去时碰到 a，还是这一条：je mangeais、je commençais。"
+  },
+  {
+    "why": "【先把规则完整说清楚】在 préférer（更喜欢）这一类含 é 的 -er 动词里：当词干中相关的 é 后面接一个含不发音 e 的词尾（-e、-es、-ent）时，这个 é 要写成 è；当后面接发音的词尾（-ons、-ez）时，保留 é。这里说的是特定动词的词干元音变化，不是法语里每一个 e 都必须这样变。",
+    "steps": [
+      "① 先看原形 préférer（更喜欢）：它的拼写是 p-r-é-f-é-r-e-r。注意有两个 é；变位时改变的是靠近 -er 词尾的第二个 é，第一个 é 不变。",
+      "② je préfère（我更喜欢）：词尾 -e 不发音，因此第二个 é → è。",
+      "③ tu préfères（你更喜欢）：词尾 -es 不发音，因此第二个 é → è。",
+      "④ il préfère（他更喜欢）/ elle préfère（她更喜欢）：词尾 -e 不发音，因此第二个 é → è。",
+      "⑤ ils préfèrent（他们更喜欢）/ elles préfèrent（她们更喜欢）：词尾 -ent 不发音，因此第二个 é → è。",
+      "⑥ nous préférons（我们更喜欢）：词尾 -ons 发音，所以第二个 é 保持 é。",
+      "⑦ vous préférez（您更喜欢／你们更喜欢）：词尾 -ez 发音，所以第二个 é 保持 é。",
+      "⑧ 记忆图形：je、tu、il/elle、ils/elles 四格变 è；nous、vous 两格保留 é。"
+    ],
+    "mechanism": "【为什么】é 通常对应较闭的 /e/，è 通常对应较开的 /ɛ/。对 préférer（更喜欢）这样的动词，词尾含不发音的 e 时，词干中相关元音读 /ɛ/，所以用 è 标示；-ons、-ez 是发音的词尾，相关元音保留 /e/，所以写 é。关键是词干音节和词尾的关系，不是把词尾里的 e 改掉。完整对照：je préfère（我更喜欢）｜tu préfères（你更喜欢）｜il préfère（他更喜欢）｜nous préférons（我们更喜欢）｜vous préférez（你们更喜欢）｜ils préfèrent（他们更喜欢）。",
+    "exceptions": "【同类与区别】espérer（希望）→ j’espère（我希望）/ nous espérons（我们希望）；répéter（重复）→ je répète（我重复）/ nous répétons（我们重复）。另有 e → è：acheter（购买）→ j’achète（我购买）/ nous achetons（我们购买）；lever（抬起）→ je lève（我抬起）/ nous levons（我们抬起）。还有双写辅音的模式：appeler（打电话）→ j’appelle（我打电话）/ nous appelons（我们打电话）；jeter（扔）→ je jette（我扔）/ nous jetons（我们扔）。这些是相近的发音与拼写现象，但不能把所有 -er 动词、所有 é 或所有 e 一律套入同一规则。"
+  },
+  {
+    "why": "第二组的标志不是 -ir 这两个字母，而是复数里多出来、要读成 /s/ 的 -iss-。单数的 -s、-t 都不发音，听起来只剩词干；「一个人」和「大家」就靠这段 -iss- 分开。",
+    "steps": [
+      "finir（完成）去掉 -ir，基本词干是 fin-。单数直接加词尾，复数先加 -iss- 再加词尾。",
+      "je finis（我完成）、tu finis（你完成）、il finit（他完成）：-s、-s、-t 都不发音，三格同音 /fi.ni/。il 写 -t，不写 -s。",
+      "nous finissons（我们完成）/fi.ni.sɔ̃/，vous finissez（你们完成）/fi.ni.se/，ils finissent（他们完成）/fi.nis/。ss 要读；ils 的 -ent 仍然不发音，所以 finissent 比 finis 多一个 /s/。"
+    ],
+    "mechanism": "记「单数没有 -iss-，复数一定有」。ils 跟 nous、vous 走，不跟 je 走。现在分词也带着它：finissant。同样：choisir（选择）→ je choisis / nous choisissons；réussir（成功）→ je réussis / nous réussissons；grandir（长大）→ je grandis / nous grandissons。",
+    "exceptions": "以 -ir 结尾不一定是第二组。partir → nous partons，ouvrir → nous ouvrons，venir → nous venons，都没有 -iss-。il finit 不要写成 il finis；ils finissent 也不要读成和 je finis 一样。"
+  },
+  {
+    "why": "这一族有长短两套词干，为的是读音。单数词尾不发音，词干最后的辅音也不读，je、tu 连这个字母一起省掉；复数里这个辅音要读出来，所以留在词干上。",
+    "steps": [
+      "partir（离开）的长词干是 part-，短词干是 par-，差别就是那个 t。",
+      "单数用短词干：je pars（我离开）、tu pars（你离开）、il part（他离开）。-s 和 -t 都不发音，三格同音 /paʁ/。il 留下的 t 只是不发音的第三人称记号。",
+      "复数用长词干，t 要读：nous partons（我们离开）/paʁ.tɔ̃/，vous partez（你们离开）/paʁ.te/，ils partent（他们离开）/paʁt/。ils 的 -ent 不发音，但 t 要读。"
+    ],
+    "mechanism": "记「单数短，复数长」，这是两套词干。不要用靴子把 ils 和 je 放在一起：ils partent 用的是长词干，和 nous、vous 一伙。同样：sortir（出去）→ je sors / nous sortons / ils sortent；dormir（睡觉）→ je dors / nous dormons / ils dorment；sentir（感觉）→ je sens / nous sentons / ils sentent。",
+    "exceptions": "不要加 -iss-，nous partissons 是错的。servir（服务）走同一套：je sers / nous servons / ils servent。courir（跑）不能省字母，因为 r 在单数里也要读：je cours /kuʁ/、nous courons、vous courez，全程一个 r。mourir（死亡）也留着 r，元音另外变：je meurs /mœʁ/、nous mourons、ils meurent。"
+  },
+  {
+    "why": "ouvrir 的原形是 -ir，现在时接的却是 parler 那一套词尾，-e、-es、-ent 同样不发音。它归第三组，是因为过去分词和其他时态都不跟第一组走。",
+    "steps": [
+      "ouvrir（打开）去掉 -ir，词干 ouvr-。六个人称都用这一套，中间不要插 -iss-。",
+      "j'ouvre（我打开）、tu ouvres（你打开）、il ouvre（他打开）、ils ouvrent（他们打开）：词尾都不发音，四格同音 /u.vʁ/。je 碰到元音省成 j'。",
+      "nous ouvrons（我们打开）/u.vʁɔ̃/，vous ouvrez（你们打开）/u.vʁe/：-ons、-ez 要发音。"
+    ],
+    "mechanism": "现在时就当成 parler：一套词干，词尾 -e、-es、-e、-ons、-ez、-ent。靴子里的四格同音。同样：offrir（赠送）→ j'offre / nous offrons；couvrir（覆盖）→ je couvre / nous couvrons；cueillir（采摘）→ je cueille / nous cueillons。ouvrir、offrir 以元音开头，je 省成 j'；couvrir、cueillir 不省。",
+    "exceptions": "过去分词不是 -é：ouvrir → ouvert，offrir → offert，couvrir → couvert。cueillir 的过去分词是 cueilli，这是这一族里的真例外。现在时不要写成 j'ouvris，也不要写成 nous ouvrissons。"
+  },
+  {
+    "why": "去掉 -re 以后，词干 vend- 已经以 d 结尾。单数里这个 d 不发音，正好充当词尾，所以 il 不用再加字母；je、tu 只加一个同样不发音的 -s，三个单数听起来一样。",
+    "steps": [
+      "vendre（卖）去掉 -re，词干 vend-。六个人称都留着 d，不换词干。",
+      "je vends（我卖）、tu vends（你卖）加不发音的 -s；il vend（他卖）不再加字母。三格同音 /vɑ̃/。",
+      "nous vendons（我们卖）/vɑ̃.dɔ̃/，vous vendez（你们卖）/vɑ̃.de/，d 要读。ils vendent（他们卖）/vɑ̃d/：-ent 不发音，d 要读。"
+    ],
+    "mechanism": "一套词干，词尾是 -s、-s、零、-ons、-ez、-ent。记「单数听不见 d，复数读出 d」。同样：attendre（等待）→ j'attends / il attend / nous attendons；répondre（回答）→ je réponds / il répond / nous répondons；entendre（听见）→ j'entends / il entend / nous entendons。",
+    "exceptions": "il 的形式是 il vend，不要加 -s。-ent 也不要读成一个音节。prendre 和 mettre 虽然也以 -re 结尾，词干会变，用它们自己的表。"
+  },
+  {
+    "why": "prendre 的 d 和 n 跟着后面的读音走，所以有三套词干。单数是鼻音，d 不读；nous、vous 要读出 n，d 就消失；ils 双写 n，标出不发鼻音的开口 /ɛ/。",
+    "steps": [
+      "三套词干：prend-（单数）、pren-（nous、vous）、prenn-（ils）。先选词干，再加词尾。",
+      "je prends（我拿）、tu prends（你拿）、il prend（他拿）：-s 和 d 都不发音，三格同音 /pʁɑ̃/。il 不加 -s。",
+      "nous prenons（我们拿）/pʁə.nɔ̃/，vous prenez（你们拿）/pʁə.ne/。这里没有 d，n 要读。",
+      "ils prennent（他们拿）/pʁɛn/。两个 n，-ent 不发音；元音是开口的 /ɛ/，n 要读，不是鼻音。"
+    ],
+    "mechanism": "记三个锚点：je prends、nous prenons、ils prennent。tu、il 跟 je，vous 跟 nous。同样：apprendre（学习）→ j'apprends / nous apprenons / ils apprennent；comprendre（理解）→ je comprends / nous comprenons / ils comprennent；reprendre（再拿）→ je reprends / nous reprenons / ils reprennent。",
+    "exceptions": "不要写成 nous prendons（多了 d）或 ils prendent（少了一个 n）。je、tu 有 -s，il 没有。过去分词是 pris：j'ai pris。"
+  },
+  {
+    "why": "两个 t 只写在后面真的有辅音要读的时候。单数词尾不发音，拼写就留一个不读的 t；复数里 t 要读（ils 的 -ent 本身不发音），所以写成 tt。",
+    "steps": [
+      "mettre（放置）有两套词干：单数 met-，复数 mett-。",
+      "je mets（我放）、tu mets（你放）、il met（他放）。t 和 -s 都不发音，三格同音 /mɛ/。il 不加 -s。",
+      "nous mettons（我们放）/mɛ.tɔ̃/，vous mettez（你们放）/mɛ.te/，ils mettent（他们放）/mɛt/。复数都是两个 t；ils 的 -ent 不发音，t 要读。"
+    ],
+    "mechanism": "记「单数一个 t，复数两个 t」。同样：permettre（允许）→ je permets / nous permettons / ils permettent；promettre（承诺）→ je promets / nous promettons / ils promettent；remettre（放回）→ je remets / nous remettons / ils remettent。",
+    "exceptions": "不要写成 il mets，也不要写成 nous metons。je、tu 有 -s，il 没有。battre（打）长得像，但 je bats、tu bats 的拼写里没有 t，il bat 只有一个，nous battons 才双写。过去分词是 mis：j'ai mis，不要写成 metté。"
+  },
+  {
+    "why": "和 é 变 è 是同一类道理：看后面的词尾发不发音。词尾不发音时，前面的 e 读成开口的 ie，ils 再双写 n，标出这里不发鼻音；-ons、-ez 要发音时，词干保持轻读的 e。",
+    "steps": [
+      "venir（来）三套词干：vien-（单数）、ven-（nous、vous）、vienn-（ils）。",
+      "je viens（我来）、tu viens（你来）、il vient（他来）：-s、-s、-t 都不发音，三格同音，鼻音 /vjɛ̃/。",
+      "nous venons（我们来）/və.nɔ̃/，vous venez（你们来）/və.ne/。这里没有 i，第一个 e 读得很轻。",
+      "ils viennent（他们来）/vjɛn/。有 i，有两个 n；-ent 不发音，n 要读，元音是 /ɛ/，不是鼻音。"
+    ],
+    "mechanism": "用靴子记元音：靴子里面（je、tu、il、ils）是 ie，靴子外面（nous、vous）是 e；ils 再多写一个 n。三个锚点：je viens、nous venons、ils viennent。tenir（拿住）完全平行：je tiens / nous tenons / ils tiennent。同样：devenir（成为）→ je deviens / nous devenons / ils deviennent；revenir（回来）→ je reviens / nous revenons / ils reviennent；obtenir（获得）跟 tenir：j'obtiens / nous obtenons / ils obtiennent。",
+    "exceptions": "不要写成 je vens、nous vienons、ils vienent，也不要把 ils viennent 读成 je viens 的鼻音。venir、devenir、revenir 的复合过去时用 être，过去分词要配合：je suis venu / je suis venue。tenir、obtenir 用 avoir：j'ai tenu、j'ai obtenu。"
+  },
+  {
+    "why": "-oir 只说明原形怎么拼，给不出统一的六个人称。这一组还是看词尾发不发音：不发音时用靴子里的元音，-ons、-ez 要发音时换另一套词干，所以先记每个动词的 je、nous、ils。",
+    "steps": [
+      "pouvoir（能够）。je peux（我能）、tu peux（你能）、il peut（他能）：x 和 t 都不发音，三格同音 /pø/。il 写 -t，不写 -x。",
+      "nous pouvons（我们能）/pu.vɔ̃/，vous pouvez（你们能）/pu.ve/。词干 pouv-，元音是 /u/，和原形 pouvoir 的开头一样，v 要读。",
+      "ils peuvent（他们能）/pœv/。-ent 不发音，v 要读；后面有这个 v，eu 就读得更开，是 /œ/，不再是 /pø/。"
+    ],
+    "mechanism": "靴子里面是 eu（peux、peut、peuvent），外面是 ou（pouvons、pouvez）。tu 复制 je，il 把词尾换成不发音的 -t，vous 把 -ons 换成 -ez。vouloir（想要）同型：je veux / nous voulons / ils veulent。devoir（必须）靴子里换成 oi：je dois / nous devons / ils doivent。voir（看见）的 y 只加在要发音的词尾前面：nous voyons、vous voyez；ils voient 不加 y，和 je vois 同音 /vwa/。",
+    "exceptions": "倒装疑问用 Puis-je（我可以吗），不用 Peux-je；陈述句通常说 je peux。vouloir 的 ils 是 veulent，不是 voulent。savoir（知道）不要照 voir 加 y，v 出现在全部复数：je sais / nous savons / ils savent，ils savent 读 /sav/。recevoir（收到）和 commencer 是同一条 ç：je reçois、il reçoit、ils reçoivent 有 ç，nous recevons、vous recevez 没有，因为 c 在 e 前本来就读 /s/。"
+  },
+  {
+    "why": "être、avoir、aller、faire 的现在时是几套旧词干拼起来的，原形里经常找不到变位的影子：être 里没有 suis，aller 里没有 vais。它们每句话都会碰到，只能整组记住，用前面任何一条词尾规则都推不出来。",
+    "steps": [
+      "être（是）：je suis（我是）、tu es（你是）、il est（他是）、nous sommes（我们是）、vous êtes（你们是）、ils sont（他们是）。tu es 和 il est 同音；vous êtes 的 t 要读 /ɛt/；ils sont 是鼻音 /sɔ̃/，单独念时 t 不读。",
+      "avoir（有）：j'ai（我有）读 /e/；tu as（你有）、il a（他有）同音 /a/；nous avons（我们有）、vous avez（你们有）；ils ont（他们有）读鼻音 /ɔ̃/。v 只出现在 nous、vous。",
+      "aller（去）：je vais（我去）/vɛ/，tu vas（你去）、il va（他去）同音 /va/，nous allons（我们去）、vous allez（你们去），ils vont（他们去）/vɔ̃/。只有 je vais 有 i；nous、vous 才用 all-。",
+      "faire（做）：je fais（我做）、tu fais（你做）、il fait（他做）同音 /fɛ/，s 和 t 不读。nous faisons（我们做）/fə.zɔ̃/，字母 s 读成 /z/。vous faites（你们做）/fɛt/。ils font（他们做）/fɔ̃/。"
+    ],
+    "mechanism": "四个动词各记各的，不能从原形推。各自的怪点：être 的 vous êtes 要读出 t，ils sont 是鼻音；avoir 的 v 只在 nous、vous；aller 只有 je vais 有 i，ils 单独是 vont；faire 的 nous 把 s 读成 /z/，vous 是 faites。faire 的派生动词走同一张表：refaire（重做）→ je refais / nous refaisons / vous refaites；défaire（解开）→ je défais / vous défaites。",
+    "exceptions": "vous 不要一律写成 -ez：vous êtes、vous faites，还有 dire（说）的 vous dites。aller 不能按 -er 推，不要写成 j'alle；je vais 有 i，tu vas 没有。tu es 不要写成 tu est，il est 不要写成 il es。être 和 avoir 还是复合时态的助动词；aller 加原形是近将来时，如 je vais parler（我这就说）。"
+  }
+];
 function lessonHTML(i){let x=LESSONS[i];return '<section class="note" style="background:#fff8f4;border:1px solid #f0e3dd"><h3>为什么会这样变？</h3><p>'+x.why+'</p><h3>一步一步推导</h3><ol>'+x.steps.map(t=>'<li style="margin:9px 0">'+t+'</li>').join('')+'</ol><h3>背后的规律</h3><p>'+x.mechanism+'</p><h3>例外与易错点</h3><p>'+x.exceptions+'</p></section>'}
 function verbs(){let g=G[selected],v=V[selected];return '<div class="card"><h2>Verbs</h2><p class="mut">官方只有 3 个动词组；下面 12 类是教学分类，不是官方分组。</p><label>现在时变位家族</label><select id="group">'+G.map((x,i)=>'<option value="'+i+'" '+(i===selected?'selected':'')+'>'+(i+1)+'. '+x[0]+'</option>').join('')+'</select><div class="note"><h3>'+g[1]+'（'+g[2]+'）</h3><p>'+g[4]+'</p><button data-say="'+g[1]+'">▶ 原形发音</button></div>'+lessonHTML(selected)+'<div class="scroll"><table><thead><tr><th>人称</th><th>Présent（现在时）</th><th></th></tr></thead><tbody>'+P.map((p,i)=>'<tr><td>'+p+'</td><td><b>'+v.forms[i]+'</b></td><td><button data-say="'+p.split(' /')[0]+' '+v.forms[i]+'">▶</button></td></tr>').join('')+'</tbody></table></div><p><button class="primary" id="groupquiz">练习这一类</button></p><details><summary>同类与高频特殊动词参考表</summary><div class="scroll"><table>'+V.filter(x=>x.group===-1).map(x=>'<tr><td>'+x.name+'（'+x.zh+'）</td><td>'+x.forms.join(' / ')+'</td></tr>').join('')+'</table></div></details></div><div class="card"><h2>其他时态 · 构造地图</h2>'+[['Imparfait（未完成过去时）','nous 现在时词干去 -ons + -ais/-ais/-ait/-ions/-iez/-aient；être → ét-。'],['Passé composé（复合过去时）','avoir/être 现在时 + 过去分词；部分动词需性数配合。'],['Futur simple（简单将来时）','未来词干 + -ai/-as/-a/-ons/-ez/-ont；être → ser-、avoir → aur-、aller → ir-。'],['Conditionnel présent（条件式现在时）','未来词干 + 未完成过去时词尾。'],['Subjonctif présent（虚拟式现在时）','常用 ils/nous 两套现在时词干；être/avoir/aller 等有特殊形式。'],['Impératif（命令式）','主要用 tu/nous/vous；部分 -er 的 tu 形式去 s，vas-y（去吧）例外。'],['Futur proche（近将来）','aller 现在时 + 动词原形。'],['Passé récent（最近过去）','venir de + 动词原形。']].map(x=>'<details><summary>'+x[0]+'</summary><p>'+x[1]+'</p></details>').join('')+'</div>'}
 function start(kind){let pool=kind==='group'?V.filter(x=>x.group===selected):V;let questions=Array.from({length:10},()=>{let v=pool[Math.floor(Math.random()*pool.length)],p=Math.floor(Math.random()*6);return{v:v.name,zh:v.zh,p,answer:v.forms[p],kind}});if(kind==='number')questions=Array.from({length:10},()=>{let n=Math.floor(Math.random()*1000);return{v:String(n),zh:'',p:0,answer:String(n),kind}});if(kind==='wrong'){let keys=Object.keys(db.wrong);questions=keys.length?keys.slice(0,10).map(k=>{let [v,p]=k.split('|'),item=V.find(x=>x.name===v);return{v,p:+p,zh:item.zh,answer:item.forms[+p],kind}}):questions}quiz={questions,i:0,results:[],feedback:null};go('practice')}
