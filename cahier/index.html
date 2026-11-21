@@ -156,7 +156,7 @@ const PERSON=['je','tu','il / elle / on','nous','vous','ils / elles'];
 let practiceNote='';
 const PRACTICE_KEY='cahier-practice-session-v1';
 function persistPractice(){try{if(quiz)localStorage.setItem(PRACTICE_KEY,JSON.stringify(quiz));else localStorage.removeItem(PRACTICE_KEY)}catch(e){}}
-try{let old=JSON.parse(localStorage.getItem(PRACTICE_KEY)||'null');if(old&&Array.isArray(old.questions)&&Array.isArray(old.queue)&&old.questions.length){quiz=old;quiz.missed=quiz.missed||{};quiz.streak=quiz.streak||{};quiz.results=quiz.results||[];quiz.attempts=quiz.attempts||{};quiz.completed=quiz.completed||0;practiceNote=quiz.note||''}}catch(e){}
+try{let old=JSON.parse(localStorage.getItem(PRACTICE_KEY)||'null');if(old&&Array.isArray(old.questions)&&Array.isArray(old.queue)&&old.questions.length){quiz=old;quiz.missed=quiz.missed||{};quiz.streak=quiz.streak||{};quiz.results=quiz.results||[];quiz.attempts=quiz.attempts||{};quiz.completed=quiz.completed||0;quiz.reserve=Array.isArray(quiz.reserve)?quiz.reserve:[];practiceNote=quiz.note||''}}catch(e){}
 function shuffled(a){return [...a].sort(()=>Math.random()-.5)}
 function start(kind){
  let pool=kind==='group'?V.filter(x=>x.group===selected):V;
@@ -165,17 +165,23 @@ function start(kind){
  else if(kind==='number'){questions=Array.from({length:10},()=>{let n=Math.floor(Math.random()*1000);return{v:String(n),zh:'',p:0,answer:String(n),kind}})}
  else{questions=pool.flatMap(v=>v.forms.map((answer,p)=>({v:v.name,zh:v.zh,p,answer,kind})))}
  questions=shuffled(questions).slice(0,kind==='group'?Math.min(12,questions.length):Math.min(25,questions.length));
- quiz={questions,i:0,queue:questions.map((_,i)=>i),current:null,results:[],attempts:{},streak:{},completed:0,feedback:null,missed:{},note:practiceNote};
+ quiz={questions,i:0,queue:questions.map((_,i)=>i).slice(0,5),reserve:questions.map((_,i)=>i).slice(5),current:null,results:[],attempts:{},streak:{},completed:0,feedback:null,missed:{},note:practiceNote};
  nextPractice();go('practice')
+}
+function refillPractice(){
+ if(!quiz)return;
+ quiz.reserve=quiz.reserve||[];
+ while(quiz.queue.length<5&&quiz.reserve.length)quiz.queue.push(quiz.reserve.shift());
 }
 function nextPractice(){
  if(!quiz)return;
- while(quiz.queue.length){let id=quiz.queue.shift();if((quiz.streak[id]||0)>=2)continue;quiz.current=id;quiz.feedback=null;quiz.i++;persistPractice();render();setTimeout(playPractice,100);return}
+ refillPractice();
+ while(quiz.queue.length){let id=quiz.queue.shift();if((quiz.streak[id]||0)>=2){refillPractice();continue}quiz.current=id;quiz.feedback=null;quiz.i++;persistPractice();render();setTimeout(playPractice,100);return}
  quiz.current=null;persistPractice();render()
 }
 function playPractice(){if(!quiz||quiz.current===null)return;let q=quiz.questions[quiz.current];speak(q.kind==='number'?number(Number(q.v)):PERSON[q.p].split(' /')[0]+' '+q.answer)}
 function practice(){
- if(!quiz)return '<div class="card"><h2>Practice · Spelling</h2><p class="mut">参照 Pêche Spelling：听写、两次正确过关、错误回队列、全键盘操作。法语变位按动词与人称逐格练习。</p><div class="grid"><button class="tile" id="mix"><strong>Mixed</strong><span class="mut">全部动词 · 混合六人称</span></button><button class="tile" id="wrong"><strong>Review</strong><span class="mut">只练历史错题</span></button></div><p class="mut">已完成 '+db.history.length+' 轮 · 待复习 '+Object.keys(db.wrong).length+' 项</p><label for="practiceNote">自由记录 / 疑问</label><textarea id="practiceNote" placeholder="写下疑问、想法或需要复习的点…">'+esc(practiceNote)+'</textarea></div>';
+ if(!quiz)return '<div class="card"><h2>Practice · Spelling</h2><p class="mut">结合 Pêche Learn 的约 5 题轮巡与 Spelling 的听写规则：连续正确两次过关，答错原题重写，全键盘操作。法语变位按动词与人称逐格练习。</p><div class="grid"><button class="tile" id="mix"><strong>Mixed</strong><span class="mut">全部动词 · 混合六人称</span></button><button class="tile" id="wrong"><strong>Review</strong><span class="mut">只练历史错题</span></button></div><p class="mut">已完成 '+db.history.length+' 轮 · 待复习 '+Object.keys(db.wrong).length+' 项</p><label for="practiceNote">自由记录 / 疑问</label><textarea id="practiceNote" placeholder="写下疑问、想法或需要复习的点…">'+esc(practiceNote)+'</textarea></div>';
  if(quiz.current===null)return summary();
  let q=quiz.questions[quiz.current],f=quiz.feedback,id=quiz.current,streak=quiz.streak[id]||0;
  let prompt=q.kind==='number'?'听写数字':esc(q.v)+' <small>（'+esc(q.zh)+'）</small>';
@@ -192,7 +198,7 @@ function check(){
  quiz.attempts[id]=(quiz.attempts[id]||0)+1;
  if(ok){
   quiz.streak[id]=(quiz.streak[id]||0)+1;
-  if(quiz.streak[id]>=2){quiz.completed++;if(q.kind!=='number')delete db.wrong[q.v+'|'+q.p]}
+  if(quiz.streak[id]>=2){quiz.completed++;if(q.kind!=='number')delete db.wrong[q.v+'|'+q.p];refillPractice()}
   else quiz.queue.push(id);
   quiz.results.push({...q,user,ok:true,why,attempt:quiz.attempts[id]});
   quiz.feedback={ok:true};
