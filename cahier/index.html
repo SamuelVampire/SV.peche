@@ -154,6 +154,9 @@ function verbs(){let g=G[selected],v=V[selected];return '<div class="card"><h2>V
 
 const PERSON=['je','tu','il / elle / on','nous','vous','ils / elles'];
 let practiceNote='';
+const PRACTICE_KEY='cahier-practice-session-v1';
+function persistPractice(){try{if(quiz)localStorage.setItem(PRACTICE_KEY,JSON.stringify(quiz));else localStorage.removeItem(PRACTICE_KEY)}catch(e){}}
+try{let old=JSON.parse(localStorage.getItem(PRACTICE_KEY)||'null');if(old&&Array.isArray(old.questions)&&Array.isArray(old.queue)&&old.questions.length){quiz=old;quiz.missed=quiz.missed||{};quiz.streak=quiz.streak||{};quiz.results=quiz.results||[];quiz.attempts=quiz.attempts||{};quiz.completed=quiz.completed||0;practiceNote=quiz.note||''}}catch(e){}
 function shuffled(a){return [...a].sort(()=>Math.random()-.5)}
 function start(kind){
  let pool=kind==='group'?V.filter(x=>x.group===selected):V;
@@ -167,8 +170,8 @@ function start(kind){
 }
 function nextPractice(){
  if(!quiz)return;
- while(quiz.queue.length){let id=quiz.queue.shift();if((quiz.streak[id]||0)>=2)continue;quiz.current=id;quiz.feedback=null;quiz.i++;render();setTimeout(playPractice,100);return}
- quiz.current=null;render()
+ while(quiz.queue.length){let id=quiz.queue.shift();if((quiz.streak[id]||0)>=2)continue;quiz.current=id;quiz.feedback=null;quiz.i++;persistPractice();render();setTimeout(playPractice,100);return}
+ quiz.current=null;persistPractice();render()
 }
 function playPractice(){if(!quiz||quiz.current===null)return;let q=quiz.questions[quiz.current];speak(q.kind==='number'?number(Number(q.v)):PERSON[q.p].split(' /')[0]+' '+q.answer)}
 function practice(){
@@ -199,10 +202,10 @@ function check(){
   if(q.kind!=='number')db.wrong[q.v+'|'+q.p]=true;
   quiz.results.push({...q,user,ok:false,why,attempt:quiz.attempts[id]});
   quiz.feedback={ok:false,user,why};
-  quiz.queue.push(id);
+  if(!quiz.queue.includes(id))quiz.queue.push(id);
   render();setTimeout(()=>el('answer')?.focus(),0);
  }
- save()
+ save();persistPractice()
 }
 function summary(){
  let first=quiz.questions.map((q,id)=>({q,id,wrong:!!quiz.missed[id]}));
@@ -219,9 +222,9 @@ function bind(){
  if(el('mix'))el('mix').onclick=()=>start('mix');
  if(el('wrong'))el('wrong').onclick=()=>start('wrong');
  if(el('replay'))el('replay').onclick=playPractice;
- if(el('practiceNote'))el('practiceNote').oninput=e=>{practiceNote=e.target.value;if(quiz)quiz.note=practiceNote};
- if(el('finish'))el('finish').onclick=()=>{db.history.push({date:new Date().toISOString(),results:quiz.results,questions:quiz.questions,missed:quiz.missed,note:quiz.note});save();practiceNote='';quiz=null;render()};
- if(el('answer')){el('answer').focus();el('answer').oninput=()=>{if(quiz?.feedback&&!quiz.feedback.ok){quiz.feedback=null;document.querySelector('.note')?.remove()}}}
+ if(el('practiceNote'))el('practiceNote').oninput=e=>{practiceNote=e.target.value;if(quiz){quiz.note=practiceNote;persistPractice()}};
+ if(el('finish'))el('finish').onclick=()=>{db.history.push({date:new Date().toISOString(),results:quiz.results,questions:quiz.questions,missed:quiz.missed,note:quiz.note});save();practiceNote='';quiz=null;persistPractice();render()};
+ if(el('answer')){el('answer').focus();el('answer').oninput=()=>{if(quiz?.feedback&&!quiz.feedback.ok){quiz.feedback=null;document.querySelector('.note')?.remove();persistPractice()}}}
  if(quiz?.feedback?.ok){let box=el('answer');if(box){box.value=quiz.questions[quiz.current].answer;box.disabled=true;let b=document.createElement('button');b.id='nextPractice';b.className='primary';b.textContent='正确 ✓ · 继续 Space';b.onclick=nextPractice;box.insertAdjacentElement('afterend',b)}}
 }
 document.addEventListener('keydown',e=>{
